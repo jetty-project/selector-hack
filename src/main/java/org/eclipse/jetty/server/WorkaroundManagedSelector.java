@@ -45,6 +45,7 @@ public class WorkaroundManagedSelector extends ManagedSelector
             if (noSelectCount.incrementAndGet() > MAX_NO_SELECT)
             {
                 // we exceeded the maximum consecutive no-select count
+                // Trigger the selector rebuilding built into Jetty, via it's error handling
                 handleSelectFailure(selector, new IOException("Rebuilding Selector: " + selector));
                 // reset count
                 noSelectCount.set(0);
