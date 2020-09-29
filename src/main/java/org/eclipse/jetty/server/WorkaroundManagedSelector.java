@@ -27,7 +27,7 @@ import org.eclipse.jetty.io.SelectorManager;
 
 public class WorkaroundManagedSelector extends ManagedSelector
 {
-    private final int MAX_NO_SELECT = 1024;
+    public final int MAX_NO_SELECT = 1024;
     private final AtomicInteger noSelectCount = new AtomicInteger();
 
     public WorkaroundManagedSelector(SelectorManager selectorManager, int id)

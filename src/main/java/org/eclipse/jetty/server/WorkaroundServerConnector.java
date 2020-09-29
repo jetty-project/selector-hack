@@ -18,11 +18,7 @@
 
 package org.eclipse.jetty.server;
 
-import java.nio.channels.Selector;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jetty.io.ByteBufferPool;
 import org.eclipse.jetty.io.ManagedSelector;
