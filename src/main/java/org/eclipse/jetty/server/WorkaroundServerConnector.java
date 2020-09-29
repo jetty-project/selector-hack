@@ -18,15 +18,20 @@
 
 package org.eclipse.jetty.server;
 
+import java.nio.channels.Selector;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jetty.io.ByteBufferPool;
+import org.eclipse.jetty.io.ManagedSelector;
+import org.eclipse.jetty.io.SelectorManager;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.Scheduler;
 
 public class WorkaroundServerConnector extends ServerConnector
 {
-
     public WorkaroundServerConnector(Server server)
     {
         super(server);
@@ -65,5 +70,17 @@ public class WorkaroundServerConnector extends ServerConnector
     public WorkaroundServerConnector(Server server, Executor executor, Scheduler scheduler, ByteBufferPool bufferPool, int acceptors, int selectors, ConnectionFactory... factories)
     {
         super(server, executor, scheduler, bufferPool, acceptors, selectors, factories);
+    }
+
+    @Override
+    protected SelectorManager newSelectorManager(Executor executor, Scheduler scheduler, int selectors)
+    {
+        return new ServerConnectorManager(executor, scheduler, selectors)
+        {
+            protected ManagedSelector newSelector(int id)
+            {
+                return new WorkaroundManagedSelector(this, id);
+            }
+        };
     }
 }
